@@ -44,6 +44,7 @@ Task B3/A3
 7.  **A3 Task**  discuss how the type of scheduling algorithm influence kernel data
 	structures.  Also many advanced scheduling have a constant effective complexity
 	O(1).  Howcan that be achieved?
+
 Task B4/A4
 ----------
 ### Memory Management:
