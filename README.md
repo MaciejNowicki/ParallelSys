@@ -1,5 +1,5 @@
-System Integration
-==================
+Parallel & Realtime Systems
+===========================
 
 Compile final.tex in the root the entire document.
 
@@ -59,5 +59,5 @@ Task B4/A4
 	a. Paging?
 	b. Virtual memory?
 	c. Swapping?
-	Outline the implementation for each case.  Al 3 techniques can be combined.  
+	Outline the implementation for each case.  All 3 techniques can be combined.  
 	Outline how this can be done.
