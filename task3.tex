@@ -1,0 +1,19 @@
+1. Scheduler is a part of Operating System that determines when to change actually executed process/thread and which of the processes/threads in ready state should be exequted next. In order to do that scheduler use scheduling algorithm which is designed depending on purpose of the system, its requirements and application.
+2.
+States:
+Running - number (index) of currently running thread is stored in cpu_private_data.thread_index
+Ready - indexes of all threads in ready state are placed in ready_queue - instance of thread_queue structure.
+Blocked - Due to the fact, that in our design only way to make thread blocked is invocation of function pause(), indexes of all blocked (paused) threads are stored in timer queue.
+Transitions:
+From ready to running:
+Nonpreemptive - When process of currently running thread is terminated, scheduler_called_from_system_call_handler is called with argument 'scheduler' equal 1 and finally thread of index stored in ready_queue.head is dequeued and placed in cpu_private_data.thread_index.
+Preemptive and Priority - In addition to solution for nonpreemptive scheduler, at each timer interrupt (occuring with frequency of 100Hz) scheduler_called_from_timmer_interrupt_handler is called and if running thread was not set in timer_interrupt_handler and cpu_private_data.ticks_left_of_time_slice is equal 0, thread of index stored in ready_queue.head is dequeued and placed in cpu_private_data.thread_index.
+From running to ready:
+Nonpreemptive - n/a
+Preemptive and Priority - Before ready_queue.head is dequeued and placed in cpu_private_data.thread_index in order to change its state from ready to running, index of thread stored in cpu_private_data.thread_index is enqueued into ready_queue. We can say, that in our design transitions from running to ready state is interrelated and inseparable from transition in oposite direction.
+From running to blocked:
+This transition is done by calling function pause(), what results in placing thread in timer queue.
+From blocked to running:
+In our design this transition is possible only in one case - when all threads are in blocked state (cpu_private_data.thread_index is equal to -1) and number of timer ticks to wait stored in thread_table[timer_queue_head].data.list_data is smaller or equal to zero, thread of index stored in timer_queue_head is directly placed in cpu_private_data.thread_index
+From blocked to ready:
+In the case similar to presented in the section concerning transition from blocked to running state, but when some thread is running (cpu_private_data.thread_index is not equal to -1), all threads in timer queue having number of timer ticks to wait smaller or equal to zero ale enqueued into ready_queue.
